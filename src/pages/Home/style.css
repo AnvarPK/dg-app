@@ -1,0 +1,7 @@
+.header {
+    background-image: url('./nav_bar.png');
+    background-repeat-x: repeat;
+    background-repeat-y: no-repeat;
+    background-size: contain;
+    background-position: bottom;
+}
