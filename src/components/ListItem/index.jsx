@@ -1,20 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image } from '..'
+import { POST_PATH } from '../../app-consts';
 
 const ListItem = props => {
+    const { data: { name, 'poster-image': image } } = props;
+
     return (
         <div>
-            <div className="bg-indigo-300 mb-1">
+            <div className="mb-1">
                 <Image
-                    src={'/assets/images/poster1.jpg'}
+                    src={`${POST_PATH}${image}`}
                 />
             </div>
-            <p class="text-lg">Caption</p>
+            <p className="text-lg">{name}</p>
         </div>
     )
 }
 
-ListItem.propTypes = {}
+ListItem.propTypes = {
+    data: PropTypes.shape({
+        name: PropTypes.string,
+        'poster-image': PropTypes.string,
+    }),
+}
 
 export default ListItem

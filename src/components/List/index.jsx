@@ -6,8 +6,8 @@ const List = props => {
     const { data } = props;
     return (
         <div className="grid grid-cols-3 md:grid-cols-4 xl:grid-cols-5  gap-x-[1.875rem] gap-y-[2rem]">
-            {data.map((data, i) => <>
-                <ListItem key={i} />
+            {data.map((item) => <>
+                <ListItem key={item.name} data={item} />
             </>)}
         </div>
     )
