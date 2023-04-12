@@ -12,7 +12,7 @@ const Image = (props) => {
     }
 
     const handleImageError = () => {
-        setLoaded(true);
+        setLoaded(false);
     }
 
     return (

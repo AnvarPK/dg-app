@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Image } from '..'
-import { POST_PATH } from '../../app-consts';
+import { POST_PATH } from '../../app-const';
 
 const ListItem = props => {
     const { data: { name, 'poster-image': image } } = props;

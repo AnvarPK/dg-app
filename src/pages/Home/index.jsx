@@ -1,28 +1,51 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { List } from '../../components';
+import { fetchDataAction } from '../../redux/actions/dataAction';
+import { getPageData, getPageTitle, getTotalDataCount } from '../../redux/selectors/dataSelectors';
 import SearchIcon from './search.png';
 import './style.css';
 
 const Home = props => {
-    const [loading, setLoading] = useState(false);
-    const [data, setData] = useState([]);
-    const [title, setTitle] = useState(null);
+    const dispatch = useDispatch();
+    const title = useSelector(getPageTitle);
+    const data = useSelector(getPageData);
+    const totalCount = useSelector(getTotalDataCount);
 
-    const fetchData = async () => {
-        setLoading(true);
-        const response = await axios.get(`/data/CONTENTLISTINGPAGE-PAGE1.json`);
-        const { page: { title, 'content-items': { content} } } = response.data;
-        console.log({ title, content })
-        setTitle(title);
-        setData(content);
-        setLoading(false);
+    const [currentPage, setCurrentPage] = useState(0);
+
+    const fetchNextPage = () => {
+        const nextPage = currentPage + 1;
+        // Load the next page of data
+        dispatch(fetchDataAction(nextPage));
+        setCurrentPage(nextPage);
     };
 
+    const handleObserver = (entries) => {
+        const target = entries[0];
+        if (target.isIntersecting) {
+            fetchNextPage();
+        }
+    };
 
+    // lazi pagination
     useEffect(() => {
-        fetchData();
-    }, []);
+        const options = {
+            root: null,
+            rootMargin: "100px",
+            threshold: 1.0,
+        };
+
+        const observer = new IntersectionObserver(handleObserver, options);
+        // Lazily fetch 
+        if (!data.length || data.length < totalCount) {
+            observer.observe(document.querySelector("#end-of-data"));
+        }
+
+        return () => {
+            observer.disconnect();
+        };
+    }, [data]);
 
     return (
         <div className='pt-20'>
@@ -35,6 +58,7 @@ const Home = props => {
                 </div>
             </header>
             <List data={data} />
+            <div id='end-of-data' />
         </div>
     )
 }
