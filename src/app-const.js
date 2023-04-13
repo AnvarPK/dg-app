@@ -1,6 +1,5 @@
-export const APP_NAME = 'dg-app';
-export const POST_PATH = APP_NAME + '/assets/images/';
-export const DATA_PATH = APP_NAME + '/data/';
+export const POST_PATH = '/assets/images/';
+export const DATA_PATH = '/data/';
 export const DATA_PREFIX = 'CONTENTLISTINGPAGE-PAGE';
 
 //redux consts
