@@ -75,7 +75,7 @@ const Home = props => {
             />
             {showSearch && <SearchPlate searchHandler={searchHandler} />}
             <List data={data} />
-            <div id='end-of-data' />
+            <div id='end-of-data' test-id='end-of-data' />
         </div>
     )
 }
