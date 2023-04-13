@@ -1,4 +1,3 @@
-import axios from "axios";
 import { DATA_PATH, DATA_PREFIX } from "../app-const";
 
 export const fetchData = (pageNumber) => {

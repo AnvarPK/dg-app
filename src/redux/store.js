@@ -1,13 +1,12 @@
-import { applyMiddleware, combineReducers, createStore } from 'redux'
-import dataReducer from './reducers/dataReducer';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import thunk from 'redux-thunk';
-
-export const PAGE_DATA = 'PAGE_DATA';
+import { PAGE_DATA } from '../app-const';
+import dataReducer from './reducers/dataReducer';
 
 // Configure redux store here
 const store = createStore(
     combineReducers({
-        [PAGE_DATA]: dataReducer
+        [PAGE_DATA]: dataReducer,
     }),
     applyMiddleware(thunk),
 )

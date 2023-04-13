@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { List } from '../../components';
-import { fetchDataAction } from '../../redux/actions/dataAction';
+import { List, SearchPlate } from '../../components';
+import Header from '../../Layouts/Header';
+import { fetchDataAction, resetData } from '../../redux/actions/dataAction';
 import { getPageData, getPageTitle, getTotalDataCount } from '../../redux/selectors/dataSelectors';
-import SearchIcon from './search.png';
 import './style.css';
 
 const Home = props => {
@@ -13,14 +13,17 @@ const Home = props => {
     const totalCount = useSelector(getTotalDataCount);
 
     const [currentPage, setCurrentPage] = useState(0);
+    const [showSearch, setShowSearch] = useState(false);
+    const [searchInput, setSearchInput] = useState('');
 
     const fetchNextPage = () => {
         const nextPage = currentPage + 1;
         // Load the next page of data
-        dispatch(fetchDataAction(nextPage));
+        dispatch(fetchDataAction(nextPage, searchInput));
         setCurrentPage(nextPage);
     };
 
+    // handle for Intersection
     const handleObserver = (entries) => {
         const target = entries[0];
         if (target.isIntersecting) {
@@ -28,7 +31,24 @@ const Home = props => {
         }
     };
 
-    // lazi pagination
+    const searchShowHandler = () => {
+        const val = !showSearch;
+        setShowSearch(val);
+        if (!val) {
+            setSearchInput('');
+            setCurrentPage(0);
+            dispatch(resetData());
+        }
+
+    }
+
+    const searchHandler = (val) => {
+        setSearchInput(val);
+        setCurrentPage(0);
+        dispatch(resetData());
+    }
+
+    // lazy pagination
     useEffect(() => {
         const options = {
             root: null,
@@ -45,18 +65,15 @@ const Home = props => {
         return () => {
             observer.disconnect();
         };
-    }, [data]);
+    }, [data, searchInput]);
 
     return (
         <div className='pt-20'>
-            <header className='header fixed top-0 left-0 right-0 flex items-center h-20'>
-                <div className="container mx-auto px-[1.875rem]">
-                    <div className="flex justify-between ">
-                        <span className='text-xl'>{title}</span>
-                        <div><img src={SearchIcon} className="h-6 w-6 " /></div>
-                    </div>
-                </div>
-            </header>
+            <Header
+                title={title}
+                searchShowHandler={searchShowHandler}
+            />
+            {showSearch && <SearchPlate searchHandler={searchHandler} />}
             <List data={data} />
             <div id='end-of-data' />
         </div>

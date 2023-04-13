@@ -7,13 +7,13 @@ const ListItem = props => {
     const { data: { name, 'poster-image': image } } = props;
 
     return (
-        <div>
+        <div title={name}>
             <div className="mb-1">
                 <Image
                     src={`${POST_PATH}${image}`}
                 />
             </div>
-            <p className="text-lg">{name}</p>
+            <p className="text-lg truncate">{name}</p>
         </div>
     )
 }
