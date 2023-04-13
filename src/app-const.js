@@ -1,5 +1,6 @@
-export const POST_PATH = '/assets/images/';
-export const DATA_PATH = '/data/';
+export const APP_URL = window.location.href;
+export const POST_PATH =APP_URL + '/assets/images/';
+export const DATA_PATH =APP_URL + '/data/';
 export const DATA_PREFIX = 'CONTENTLISTINGPAGE-PAGE';
 
 //redux consts
